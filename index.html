@@ -1,0 +1,132 @@
+<html>
+<head>
+  <title>Checkpoint 2</title>
+  <link rel="stylesheet" type="text/css" href="schema-master/dist/css/schema.min.css">
+  <meta charset="utf-8">
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <!-- Image bannière -->
+      <h1>Checkpoint 2</h1>
+    </div>
+
+    <div class="container">
+
+      <div class="box">
+        <h2>Objectifs</h2>
+        <ul class="list-group no-b">
+          <li class="list-element">Manipuler des énumerables</li>
+          <li class="list-element">Repérer et corriger une violation des principes SOLID</li>
+          <li class="list-element">
+            Connaître et implémenter les design patterns suivants:
+            <ul class="list-group no-b">
+              <li class="list-element">Singleton</li>
+              <li class="list-element">Composite</li>
+              <li class="list-element">Factory</li>
+            </ul>
+          </li>
+          <li class="list-element">Connecter ton application avec SQL Server</li>
+          <li class="list-element">Créer un schéma de base de données relationnelle</li>
+          <li class="list-element">Former des agrégats et utiliser les jointures en Transact-SQL</li>
+          <li class="list-element">Utiliser la programmation procédurale en Transact-SQL</li>
+        </ul>
+      </div>
+
+
+      <div class="context box">
+        <h2>La Wild V2</h2>
+        <p>
+        Vos esprits frais et créatifs ont été choisis pour réinventer le système de gestion d'élèves et de campus de la Wild. Nous te fournissons une base de code testée unitairement afin de pouvoir démarrer tes développements. Cette base code implémente une classe Event qui permet de situer un événement dans le temps. Aucun test unitaire déjà présent ne doit être modifié et ils doivent être verts à la livraison. Je te recommande chaudement de suivre les principes SOLID durant ce checkpoint.
+
+	Le code en question est un dépôt Git disponible à cette <a href="https://github.com/WildCodeSchool/csharp-checkpoint2/">adresse</a>.
+
+        <h2>Rappels sur SOLID</h2>
+
+        <p>
+            <dt>Responsabilité unique</dt>
+            <dd>
+              Il ne doit y avoir qu'une seule raison de modifier une classe. Dès lors qu'il y en a plus d'une seule, le principe est violé.
+            </dd>
+
+            </dt>
+            <dt>Ouvert/Fermé</dt>
+            <dd>
+              Une entité logicielle doit être ouverte à l'extension et fermée à la modification. Si une entité n'a plus besoin d'être modifiée, elle respecte le principe de responsabilité unique puisque qu'il n'y a plus de raison de la modifier.
+            </dd>
+
+            <dt>Substitution de Liskov</dt>
+            <dd>
+              Le comportement d'un type ne doit pas être modifié par un de ses sous-types. Si c'est le cas, c'est que l'abstraction choisie n'est pas la bonne.
+            </dd>
+
+            <dt>Ségrégation d'interfaces</dt>
+            <dd>
+              Une interface ne doit pas déclarer de méthodes que les classes l'implémentant n'utilisent pas.
+            </dd>
+
+            <dt>Inversion de dépendances</dt>
+            <dd>
+              Les modules de haut-niveau ne doivent pas dépendre de détails d'implémentation de modules de bas niveau, les deux doivent dépendre d'abstractions. Les abstractions ne doivent pas dépendre des détails. Les détails doivent dépendre d'abstractions.
+            </dd>
+        </p>
+
+      </div>
+
+
+      <div class="step">
+        <h2>Fonctionnalités demandées</h2>
+
+        <h3>Les personnes</h3>
+        <p>
+            Nous voulons pouvoir attribuer un agenda à une personne. Un agenda est un ensemble d'événements. Grâce à cette relation Personne->Agenda, nous aimerions pouvoir récupérer tous les événements auxquels une personne assiste sur une période donnée. Un test unitaire doit tester qu'au moins une méthode permet de retourner les évènements auxquels une personne a du ou doit assister sur une période donnée.
+        </p>
+
+        <p>
+        <h3>Les élèves et les cursus</h3>
+        <p>
+            Les élèves suivent différents cursus qui ont lieu dans différents campus et qui ont différents calendriers et contenus. Nous voudrions qu'il existe une entité Student auquel est associé un cursus. Le cursus porte un nom et dure un certain temps. Nous aimerions pouvoir associer un calendrier à un cursus. Un test unitaire doit valider qu'au moins une méthode permet de retourner les évènements d'un calendrier sur une période donnée.
+        </p>
+
+        <p>
+        <h3>Les formateurs</h3>
+        <p>
+          Les formateurs enseignent le code à des promotions. Ces promotions sont composées d'un ensemble d'élèves. Nous aimerions que soit associé un ensemble d'élèves à un formateur. Un test unitaire valide qu'au moins une méthode retourne tous les élèves d'un formateur. Il est possible d'utiliser le pattern Composite pour représenter la hiérarchie Lead formateur/Formateurs/Eleves. Une Factory peut être utilisée pour créer une Personne qui est Formateur, Elève ou Lead Formateur. Une personne est un formateur si il a des élèves. Une personne est un lead formateur si il a des formateurs.
+        </p>
+
+        <h3>Les quêtes</h3>
+          <p>
+            Nous voulons pouvoir suivre l'évolution des quêtes écrites par nos employés. Une quête est composée d'un texte et d'un titre. Une quête est associé à un cursus. Nous voulons pouvoir grouper les quêtes par expédition. Une expédition est un ensemble de quêtes et a lieu durant une période donnée pendant un cursus.
+          </p>
+      </div>
+
+      <div class="step">
+        <h2>Donner vie à l'application</h2>
+        <p>Nous souhaitons que tu fournisses une base de données relationnelle avec des données de test que ton application peut utiliser afin de réaliser des tests manuels. La création de la structure de la base et l'insertion des données de test doivent pouvoir être exécutées à partir d'un fichier simple. Chaque requête effectuée de l'application vers la base de données sera un appel de procédure stockée. Une classe Database s'occupe uniquement d'appeler les procédures stockées sur SQL Server. La base de données peut être un Singleton.</p>
+      </div>
+
+      <div class="step">
+        <h2>Interactions avec l'utilisateur</h2>
+        <p>
+          Nous voulons pouvoir interagir avec le programme en ligne de commande. Voici les lignes de commandes que nous aimerions pouvoir utiliser:
+          <dl>
+            <dt>./Program.exe events person --begins [dd/mm/yyyy] --ends [dd/mm/yyyy]</dt>
+            <dd>Affiche tous les événements auxquels une personne doit assister durant une période</dd>
+            <dt>./Program.exe cursus --students --name [cursus_name]</dt>
+            <dd>Affiche toutes les étudiants d'un cursus</dd>
+            <dt>./Program.exe cursus --quests --name [cursus_name]</dt>
+            <dd>Affiche toutes les quêtes du cursus</dd>
+          </dl>
+        </p>
+      </div>
+    </div>
+
+</body>
+
+<script type="application/javascript" src="schema-master/dist/js/global.js">
+</script>
+<script type="application/javascript" src="schema-master/dist/js/jquery-1-11.min.js">
+</script>
+
+ </html>

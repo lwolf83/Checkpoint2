@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Checkpoint2": {
+      "commandName": "Project",
+      "commandLineArgs": "events -p Name1 --begins 2020-04-01 --ends 2020-05-01"
+    }
+  }
+}
