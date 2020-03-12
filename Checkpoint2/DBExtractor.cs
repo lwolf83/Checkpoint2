@@ -15,7 +15,7 @@ namespace WCS
             {
                 new SqlParameter("@Name", name)
             };
-            SqlDataReader reader = Database.ExecuteStoredProcedure("sp_getPersonByName", parameters);
+            SqlDataReader reader = Database.Instance.ExecuteStoredProcedure("sp_getPersonByName", parameters);
             AbstractPerson person;
 
             if (reader.HasRows)
@@ -24,7 +24,7 @@ namespace WCS
                 {
                     string typeOfPerson;
                     typeOfPerson = reader.GetString(reader.GetOrdinal("FunctionName"));
-                    person = PersonFactory.Create(typeOfPerson);
+                    person = PersonFactory.Create(typeOfPerson, new List<AbstractPerson>());
                     person.Name = reader.GetString(reader.GetOrdinal("PersonName"));
                     person.IdPerson = reader.GetInt32(reader.GetOrdinal("Person_Id"));
                     person.IdAgenda = reader.GetInt32(reader.GetOrdinal("FK_Agenda_id"));
@@ -51,7 +51,7 @@ namespace WCS
             {
                 new SqlParameter("@idPerson", idPerson)
             };
-            SqlDataReader reader = Database.ExecuteStoredProcedure("sp_getAgendaByIdPerson", parameters);
+            SqlDataReader reader = Database.Instance.ExecuteStoredProcedure("sp_getAgendaByIdPerson", parameters);
 
             Agenda agenda;
 
@@ -84,7 +84,7 @@ namespace WCS
             {
                 new SqlParameter("@idAgenda", idAgenda)
             };
-            SqlDataReader reader = Database.ExecuteStoredProcedure("sp_getEventsByIdAgenda", parameters);
+            SqlDataReader reader = Database.Instance.ExecuteStoredProcedure("sp_getEventsByIdAgenda", parameters);
 
             List <Event> Events = new List<Event>();
             if (reader.HasRows)

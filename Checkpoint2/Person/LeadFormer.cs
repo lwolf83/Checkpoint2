@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WCS
 {
-    class LeadFormer : AbstractPerson
+    public class LeadFormer : AbstractPerson
     {
     }
 }

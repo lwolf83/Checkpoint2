@@ -21,21 +21,27 @@ namespace WCS
            
         }
 
-
-        public List<Event> GetEvents(DateTime startDate, DateTime EndDate)
+        public List<Event> GetEvents(DateTime startDate, DateTime endDate)
         {
-            return Events.Where(x => IsEventInRange(x, startDate, EndDate)).ToList();
+            return Events.Where(x => IsEventInRange(x, startDate, endDate)).ToList();
         }
 
-        private static bool IsEventInRange(Event x, DateTime StartDate, DateTime EndDate)
+        private static bool IsEventInRange(Event x, DateTime startDate, DateTime endDate)
         {
-            Boolean eventBeforeDates = ((DateTime.Compare(x.StartTime, StartDate) < 0 && DateTime.Compare(x.EndTime, StartDate) < 0));
-            Boolean eventAfterDates = ((DateTime.Compare(x.StartTime, EndDate) > 0 && DateTime.Compare(x.EndTime, EndDate) > 0));
-            if (eventBeforeDates || eventAfterDates)
+            Boolean isInRange = false;
+            if (x.StartTime <= startDate && x.EndTime >= endDate)
             {
-                return false;
+                isInRange = true;
             }
-            return true;
+            else if (x.EndTime <= endDate)
+            {
+                isInRange = true;
+            }
+            else if (x.StartTime >= endDate)
+            {
+                isInRange = false;
+            }   
+            return isInRange;
         }
     }
 }

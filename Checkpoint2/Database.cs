@@ -13,7 +13,7 @@ namespace WCS
     public class Database
     {
         private static Database _instance = null;
-        private SqlConnection _connection = null;
+        public SqlConnection Connection { get; private set; }
 
         public static Database Instance
         {
@@ -29,44 +29,27 @@ namespace WCS
 
         private Database()
         {
-
             string connectionString = "Data Source=LOCALHOST\\SQLEXPRESS;Initial Catalog=WCS_CHECKPOINT2;Integrated Security=True;MultipleActiveResultSets=true";
-            SqlConnection conn = new SqlConnection(connectionString);
 
-            _connection = conn;
-
-            try
-            {
-                conn.Open();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-
+            Connection = new SqlConnection(connectionString); ;
+            Connection.Open();
         }
 
 
         public void Connect(SqlConnectionStringBuilder builder)
         {
-            if (_connection.State == System.Data.ConnectionState.Open)
+            if (Connection.State == System.Data.ConnectionState.Open)
             {
                 throw new Exception("Database already connected");
             }
-            _connection.ConnectionString = builder.ConnectionString;
-            _connection.Open();
+            Connection.ConnectionString = builder.ConnectionString;
+            Connection.Open();
         }
 
-        public SqlConnection GetConnection()
-        {
-            return Database.Instance._connection;
-        }
-
-        public static SqlDataReader ExecuteStoredProcedure(string name, List<SqlParameter> parameters)
+        public SqlDataReader ExecuteStoredProcedure(string name, List<SqlParameter> parameters)
         {
             SqlCommand cmd = new SqlCommand(name);
-            cmd.Connection = Database.Instance.GetConnection();
+            cmd.Connection = Connection;
             cmd.CommandType = CommandType.StoredProcedure;
             if(parameters.Count > 0)
             {

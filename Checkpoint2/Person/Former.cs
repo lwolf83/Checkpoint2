@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WCS
 {
-    class Former : AbstractPerson
+    public class Former : AbstractPerson
     {
     }
 }

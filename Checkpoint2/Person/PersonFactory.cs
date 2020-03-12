@@ -1,28 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace WCS
 {
     public class PersonFactory
     {
-        public static AbstractPerson Create(string typeOfPerson)
+        public static AbstractPerson Create(string name, List<AbstractPerson> subordinates = null)
         {
-            AbstractPerson personResult;
-            if (typeOfPerson == typeof(LeadFormer).Name)
+            if (subordinates == null)
             {
-                personResult = new LeadFormer();
+                subordinates = new List<AbstractPerson>();
             }
-            else if (typeOfPerson == typeof(Former).Name)
+            AbstractPerson person = null;
+            if(subordinates.Count == 0)
             {
-                personResult = new Former();
+                person = new Student { Name = name };
             }
-            else
+            else if(subordinates.All(x => x.GetType() == typeof(Student)))
             {
-                personResult = new Student();
+                person = new Former { Name = name, AbstractPeople = subordinates };
             }
-
-            return personResult;
+            else if(subordinates.Any(x => x.GetType() == typeof(Former)))
+            {
+                person = new LeadFormer { Name = name, AbstractPeople = subordinates };
+            }
+            return person;
         }
 
     }
